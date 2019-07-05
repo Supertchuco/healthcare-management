@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 import static java.util.Objects.isNull;
 
 @Service
@@ -32,7 +34,7 @@ public class ExamService {
     @Autowired
     private HealthCareInstitutionService healthcareInstitutionService;
 
-
+    @Transactional
     public Exam createExam(final ExamDto examDto) {
         log.info("Create new exam registry");
         try {
@@ -48,6 +50,7 @@ public class ExamService {
         }
     }
 
+    @Transactional
     private Exam createExamObject(final ExamDto examDto, final HealthCareInstitution healthcareInstitution,
                                   final boolean retrieved) {
         return new Exam(procedureService.initializeProcedure(examDto),
@@ -57,11 +60,20 @@ public class ExamService {
                 retrieved);
     }
 
+    @Transactional
     public Exam retrieveExam(final int examId) {
         log.info("Retrieve exam with id {}", examId);
         final Exam exam = findExamById(examId);
-        updateExamRetrievedProcess(exam);
-        return exam;
+        try {
+            updateExamRetrievedProcess(exam);
+            return exam;
+        } catch (HealthCareInstitutionInsufficientPixeonBalanceException |
+                HealthCareInstitutionNotFoundException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Unexpected exception in retrieve exam", ex);
+            throw new RetrieveExamException();
+        }
     }
 
     public void deleteExam(final int examId) {
@@ -70,11 +82,14 @@ public class ExamService {
         examRepository.delete(exam);
     }
 
+    @Transactional
     public Exam updateExam(final ExamDto examDto, final int examId) {
         log.info("Update exam with id {}", examId);
-        Exam examDatabase = findExamById(examId);
+        final Exam examDatabase = findExamById(examId);
+        final HealthCareInstitution healthCareInstitution =  healthcareInstitutionService
+                .findByCNPJ(examDto.getInstitutionCnpj());
         try {
-            Exam exam = createExamObject(examDto, healthcareInstitutionService.findByCNPJ(examDto.getInstitutionCnpj()),
+            Exam exam = createExamObject(examDto, healthCareInstitution,
                     examDatabase.isRetrieved());
             return examRepository.save(exam);
         } catch (HealthCareInstitutionNotFoundException ex) {
