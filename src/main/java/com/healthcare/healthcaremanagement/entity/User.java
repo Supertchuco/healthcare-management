@@ -25,5 +25,5 @@ public class User {
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "cnpj", nullable = false)
-    private HealthcareInstitution healthcareInstitution;
+    private HealthCareInstitution healthcareInstitution;
 }

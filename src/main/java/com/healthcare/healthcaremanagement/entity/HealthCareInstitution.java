@@ -8,10 +8,10 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-@Entity(name = "HealthcareInstitution")
-@Table(name = "HealthcareInstitution")
+@Entity(name = "HealthCareInstitution")
+@Table(name = "HealthCareInstitution")
 @AllArgsConstructor
-public class HealthcareInstitution {
+public class HealthCareInstitution {
 
     @Id
     @Column
@@ -23,15 +23,15 @@ public class HealthcareInstitution {
     @Column
     private int pixeon;
 
-    @OneToMany(mappedBy = "healthcareInstitution", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "healthCareInstitution", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Exam> exames;
 
-    @OneToMany(mappedBy = "healthcareInstitution", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "healthCareInstitution", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<User> users;
 
-    public HealthcareInstitution(final String cnpj, final String name) {
+    public HealthCareInstitution(final String cnpj, final String name) {
         this.cnpj = cnpj;
         this.name = name;
         this.pixeon = 20;

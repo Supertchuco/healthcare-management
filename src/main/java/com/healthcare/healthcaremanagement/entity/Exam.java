@@ -3,6 +3,7 @@ package com.healthcare.healthcaremanagement.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Entity(name = "Exam")
 @Table(name = "Exam")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Exam {
 
     @Id
@@ -35,11 +37,11 @@ public class Exam {
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "cnpj", nullable = false)
-    private HealthcareInstitution healthcareInstitution;
+    private HealthCareInstitution healthcareInstitution;
 
     private boolean retrieved;
 
-    public Exam(final Procedure procedure, final Patient patient, final Physician physician, final HealthcareInstitution healthcareInstitution,
+    public Exam(final Procedure procedure, final Patient patient, final Physician physician, final HealthCareInstitution healthcareInstitution,
                 final boolean retrieved) {
         this.procedure = procedure;
         this.patient = patient;

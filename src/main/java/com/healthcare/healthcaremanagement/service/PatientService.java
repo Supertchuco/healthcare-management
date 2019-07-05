@@ -2,7 +2,6 @@ package com.healthcare.healthcaremanagement.service;
 
 import com.healthcare.healthcaremanagement.dto.ExamDto;
 import com.healthcare.healthcaremanagement.entity.Patient;
-import com.healthcare.healthcaremanagement.exception.InvalidCnpjException;
 import com.healthcare.healthcaremanagement.exception.InvalidCpfException;
 import com.healthcare.healthcaremanagement.repository.PatientRepository;
 import lombok.extern.slf4j.Slf4j;
