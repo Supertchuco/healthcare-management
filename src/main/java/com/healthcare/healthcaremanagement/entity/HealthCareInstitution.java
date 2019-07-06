@@ -1,5 +1,6 @@
 package com.healthcare.healthcaremanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,10 +24,12 @@ public class HealthCareInstitution {
     @Column
     private int pixeon;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "healthCareInstitution", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Exam> exames;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "healthCareInstitution", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<User> users;

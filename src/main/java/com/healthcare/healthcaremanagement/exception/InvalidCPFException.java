@@ -3,5 +3,5 @@ package com.healthcare.healthcaremanagement.exception;
 /**
  *  Invalid CPF exception.
  */
-public class InvalidCpfException extends RuntimeException {
+public class InvalidCPFException extends RuntimeException {
 }

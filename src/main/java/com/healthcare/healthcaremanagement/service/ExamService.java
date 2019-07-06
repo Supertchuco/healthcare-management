@@ -40,7 +40,7 @@ public class ExamService {
         try {
             HealthCareInstitution healthcareInstitution = healthcareInstitutionService.findByCNPJ(examDto.getInstitutionCnpj());
             healthcareInstitution = healthcareInstitutionService.chargePixeonValue(CREATION_EXAM_PIXEON_PRICE, healthcareInstitution);
-            Exam exam = createExamObject(examDto, healthcareInstitution, false);
+            final Exam exam = createExamObject(examDto, healthcareInstitution, false);
             return examRepository.save(exam);
         } catch (HealthCareInstitutionNotFoundException | HealthCareInstitutionInsufficientPixeonBalanceException ex) {
             throw ex;
@@ -50,7 +50,6 @@ public class ExamService {
         }
     }
 
-    @Transactional
     private Exam createExamObject(final ExamDto examDto, final HealthCareInstitution healthcareInstitution,
                                   final boolean retrieved) {
         return new Exam(procedureService.initializeProcedure(examDto),
@@ -83,17 +82,15 @@ public class ExamService {
     }
 
     @Transactional
-    public Exam updateExam(final ExamDto examDto, final int examId) {
+    public Exam updateExam(final int examId, final ExamDto examDto) {
         log.info("Update exam with id {}", examId);
         final Exam examDatabase = findExamById(examId);
-        final HealthCareInstitution healthCareInstitution =  healthcareInstitutionService
+        final HealthCareInstitution healthCareInstitution = healthcareInstitutionService
                 .findByCNPJ(examDto.getInstitutionCnpj());
         try {
             Exam exam = createExamObject(examDto, healthCareInstitution,
                     examDatabase.isRetrieved());
             return examRepository.save(exam);
-        } catch (HealthCareInstitutionNotFoundException ex) {
-            throw ex;
         } catch (Exception exception) {
             log.error("Error to create exam", exception);
             throw new UpdateExamException();
@@ -122,6 +119,4 @@ public class ExamService {
             examRepository.save(exam);
         }
     }
-
-
 }

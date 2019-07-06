@@ -19,17 +19,7 @@ import static org.mockito.Mockito.*;
  * Exam service unit tests.
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public class ExamServiceTest {
-
-    private final static String INSTITUTION_NAME = "institutionTest";
-    private final static String INSTITUTION_CNPJ = "123456789";
-    private final static String PATIENT_NAME = "patientTest";
-    private final static String PATIENT_CPF = "12345009";
-    private final static int PATIENT_AGE = 56;
-    private final static String PATIENT_GENDER = "male";
-    private final static String PHYSICIAN_NAME = "doctor Who";
-    private final static String PHYSICIAN_CRM = "12345";
-    private final static String PROCEDURE_NAME = "Rectal examination";
+public class ExamServiceTest extends BaseTest {
 
     @InjectMocks
     private ExamService examService;
@@ -223,17 +213,4 @@ public class ExamServiceTest {
         ReflectionTestUtils.invokeMethod(examService, "updateExamRetrievedProcess", inputArray);
         verify(examRepository, times(1)).save(any(Exam.class));
     }
-
-    private ExamDto createExamDto() {
-        return new ExamDto(INSTITUTION_NAME,
-                INSTITUTION_CNPJ,
-                PATIENT_NAME,
-                PATIENT_CPF,
-                PATIENT_AGE,
-                PATIENT_GENDER,
-                PHYSICIAN_CRM,
-                PHYSICIAN_NAME,
-                PROCEDURE_NAME);
-    }
-
 }
