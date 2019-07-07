@@ -1,18 +1,20 @@
 package com.healthcare.healthcaremanagement.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity(name = "Exam")
 @Table(name = "Exam")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Exam {
+public class Exam implements Serializable {
 
     @Id
     @GeneratedValue
@@ -20,33 +22,33 @@ public class Exam {
     private int id;
 
     @OneToOne
+    @JoinColumn(name = "name")
     @JsonManagedReference
-    @JoinColumn(name = "name", nullable = false)
     private Procedure procedure;
 
     @OneToOne
+    @JoinColumn(name = "cpf")
     @JsonManagedReference
-    @JoinColumn(name = "cpf", nullable = false)
     private Patient patient;
 
     @OneToOne
+    @JoinColumn(name = "crm")
     @JsonManagedReference
-    @JoinColumn(name = "crm", nullable = false)
     private Physician physician;
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "cnpj", nullable = false)
-    private HealthCareInstitution healthcareInstitution;
+    @JoinColumn(name = "cnpj")
+    private Institution institution;
 
     private boolean retrieved;
 
-    public Exam(final Procedure procedure, final Patient patient, final Physician physician, final HealthCareInstitution healthcareInstitution,
+    public Exam(final Procedure procedure, final Patient patient, final Physician physician, final Institution institution,
                 final boolean retrieved) {
         this.procedure = procedure;
         this.patient = patient;
         this.physician = physician;
-        this.healthcareInstitution = healthcareInstitution;
+        this.institution = institution;
         this.retrieved = retrieved;
     }
 }

@@ -2,7 +2,7 @@ package com.healthcare.healthcaremanagement.service;
 
 import com.healthcare.healthcaremanagement.dto.ExamDto;
 import com.healthcare.healthcaremanagement.entity.Exam;
-import com.healthcare.healthcaremanagement.entity.HealthCareInstitution;
+import com.healthcare.healthcaremanagement.entity.Institution;
 import com.healthcare.healthcaremanagement.exception.*;
 import com.healthcare.healthcaremanagement.repository.ExamRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -32,17 +32,17 @@ public class ExamService {
     private ProcedureService procedureService;
 
     @Autowired
-    private HealthCareInstitutionService healthcareInstitutionService;
+    private InstitutionService institutionService;
 
     @Transactional
     public Exam createExam(final ExamDto examDto) {
         log.info("Create new exam registry");
         try {
-            HealthCareInstitution healthcareInstitution = healthcareInstitutionService.findByCNPJ(examDto.getInstitutionCnpj());
-            healthcareInstitution = healthcareInstitutionService.chargePixeonValue(CREATION_EXAM_PIXEON_PRICE, healthcareInstitution);
-            final Exam exam = createExamObject(examDto, healthcareInstitution, false);
+            Institution institution = institutionService.findByCNPJ(examDto.getInstitutionCNPJ());
+            institution = institutionService.chargePixeonValue(CREATION_EXAM_PIXEON_PRICE, institution);
+            final Exam exam = createExamObject(examDto, institution, false);
             return examRepository.save(exam);
-        } catch (HealthCareInstitutionNotFoundException | HealthCareInstitutionInsufficientPixeonBalanceException ex) {
+        } catch (InstitutionNotFoundException | InstitutionInsufficientPixeonBalanceException ex) {
             throw ex;
         } catch (Exception exception) {
             log.error("Error to create exam", exception);
@@ -50,7 +50,7 @@ public class ExamService {
         }
     }
 
-    private Exam createExamObject(final ExamDto examDto, final HealthCareInstitution healthcareInstitution,
+    private Exam createExamObject(final ExamDto examDto, final Institution healthcareInstitution,
                                   final boolean retrieved) {
         return new Exam(procedureService.initializeProcedure(examDto),
                 patientService.initializePatient(examDto),
@@ -66,8 +66,8 @@ public class ExamService {
         try {
             updateExamRetrievedProcess(exam);
             return exam;
-        } catch (HealthCareInstitutionInsufficientPixeonBalanceException |
-                HealthCareInstitutionNotFoundException ex) {
+        } catch (InstitutionInsufficientPixeonBalanceException |
+                InstitutionNotFoundException ex) {
             throw ex;
         } catch (Exception ex) {
             log.error("Unexpected exception in retrieve exam", ex);
@@ -85,10 +85,10 @@ public class ExamService {
     public Exam updateExam(final int examId, final ExamDto examDto) {
         log.info("Update exam with id {}", examId);
         final Exam examDatabase = findExamById(examId);
-        final HealthCareInstitution healthCareInstitution = healthcareInstitutionService
-                .findByCNPJ(examDto.getInstitutionCnpj());
+        final Institution institution = institutionService
+                .findByCNPJ(examDto.getInstitutionCNPJ());
         try {
-            Exam exam = createExamObject(examDto, healthCareInstitution,
+            Exam exam = createExamObject(examDto, institution,
                     examDatabase.isRetrieved());
             return examRepository.save(exam);
         } catch (Exception exception) {
@@ -111,8 +111,8 @@ public class ExamService {
         if (!exam.isRetrieved()) {
             log.info("Exam with id {} was never retrieved, charge Pixeon value");
 
-            HealthCareInstitution healthcareInstitution = healthcareInstitutionService.findByCNPJ(exam.getHealthcareInstitution().getCnpj());
-            healthcareInstitutionService.chargePixeonValue(CREATION_EXAM_PIXEON_PRICE, healthcareInstitution);
+            Institution institution = institutionService.findByCNPJ(exam.getInstitution().getCnpj());
+            institutionService.chargePixeonValue(CREATION_EXAM_PIXEON_PRICE, institution);
 
             log.info("Update exam retrieved status on database");
             exam.setRetrieved(true);

@@ -11,11 +11,11 @@ public class ExamDto implements Serializable {
 
     private String institutionName;
 
-    private String institutionCnpj;
+    private String institutionCNPJ;
 
     private String patientName;
 
-    private String patientCpf;
+    private String patientCPF;
 
     private int patientAge;
 

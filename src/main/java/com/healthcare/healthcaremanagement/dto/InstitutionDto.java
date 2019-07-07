@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @AllArgsConstructor
 @Data
-public class HealthCareInstitutionDto implements Serializable {
+public class InstitutionDto implements Serializable {
 
     private String cnpj;
 

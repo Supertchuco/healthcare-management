@@ -24,12 +24,12 @@ public class PatientService {
 
     public Patient initializePatient(final ExamDto examDto) {
         log.info("Initialize patient object");
-        validateCPF(examDto.getPatientCpf());
+        validateCPF(examDto.getPatientCPF());
         validateGender(examDto.getPatientGender());
-        Patient patient = patientRepository.findByCpf(examDto.getPatientCpf());
+        Patient patient = patientRepository.findByCpf(examDto.getPatientCPF());
         if (isNull(patient)) {
             log.info("Patient not exist on database");
-            patient = new Patient(examDto.getPatientCpf(), examDto.getPatientName(), examDto.getPatientAge(),
+            patient = new Patient(examDto.getPatientCPF(), examDto.getPatientName(), examDto.getPatientAge(),
                     examDto.getPatientGender());
         }
         return patient;

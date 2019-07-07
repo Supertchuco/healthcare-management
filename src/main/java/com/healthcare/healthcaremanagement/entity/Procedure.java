@@ -7,12 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Data
 @Entity(name = "Procedure")
 @Table(name = "Procedure")
 @AllArgsConstructor
-public class Procedure {
+public class Procedure implements Serializable {
 
     @Id
     @Column

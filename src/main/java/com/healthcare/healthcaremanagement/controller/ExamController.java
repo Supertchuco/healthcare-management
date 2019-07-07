@@ -33,7 +33,7 @@ public class ExamController {
      * @param examDto request data input
      * @return 200 success
      */
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Create new exam on database.")
     @ApiResponses({
@@ -42,7 +42,8 @@ public class ExamController {
             @ApiResponse(code = 500, message = "Internal Server ErrorMessage", response = String.class)
     })
     public Exam createExam(@Valid @RequestBody ExamDto examDto) {
-        log.info("Create new exam on database with patient CPF:{} and patient name:{}", examDto.getPatientCpf(), examDto.getPatientName());
+        log.info("Create new exam on database with patient CPF:{} and patient name:{}", examDto.getPatientCPF(),
+                examDto.getPatientName());
         return examService.createExam(examDto);
     }
 
@@ -53,7 +54,7 @@ public class ExamController {
      * @param examDto request data input
      * @return 200 success
      */
-    @RequestMapping(value = "/update/{examId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{examId}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Update exam on database.")
     @ApiResponses({
@@ -72,9 +73,9 @@ public class ExamController {
      * @param examId request data input
      * @return 200 success
      */
-    @RequestMapping(value = "/delete/{examId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{examId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Update exam on database.")
+    @ApiOperation(value = "Delete exam on database.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "Bad Request", response = String.class),
@@ -92,7 +93,7 @@ public class ExamController {
      * @param examId request data input
      * @return 200 success
      */
-    @RequestMapping(value = "/retrieve/{examId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{examId}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Retrieve exam on database.")
     @ApiResponses({

@@ -5,12 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity(name = "User")
 @Table(name = "User")
 @AllArgsConstructor
-public class User {
+public class User implements Serializable {
 
     @Id
     @Column
@@ -25,5 +26,5 @@ public class User {
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "cnpj", nullable = false)
-    private HealthCareInstitution healthcareInstitution;
+    private Institution institution;
 }
