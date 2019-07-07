@@ -1,6 +1,8 @@
 package com.healthcare.healthcaremanagement.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +13,8 @@ import java.io.Serializable;
 @Data
 @Entity(name = "Patient")
 @Table(name = "Patient")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Patient implements Serializable {
 
     @Id
@@ -25,11 +29,4 @@ public class Patient implements Serializable {
 
     @Column
     private String gender;
-
-    public Patient(final String cpf, final String name, final int age, final String gender) {
-        this.cpf = cpf;
-        this.name = name;
-        this.age = age;
-        this.gender = gender;
-    }
 }

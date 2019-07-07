@@ -21,17 +21,17 @@ public class Exam implements Serializable {
     @Column
     private int id;
 
-    @OneToOne
+    @OneToOne(cascade =  CascadeType.ALL)
     @JoinColumn(name = "name")
     @JsonManagedReference
     private Procedure procedure;
 
-    @OneToOne
+    @OneToOne(cascade =  CascadeType.ALL)
     @JoinColumn(name = "cpf")
     @JsonManagedReference
     private Patient patient;
 
-    @OneToOne
+    @OneToOne(cascade =  CascadeType.ALL)
     @JoinColumn(name = "crm")
     @JsonManagedReference
     private Physician physician;

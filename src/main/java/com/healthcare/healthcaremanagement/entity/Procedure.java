@@ -2,6 +2,7 @@ package com.healthcare.healthcaremanagement.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 @Entity(name = "Procedure")
 @Table(name = "Procedure")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Procedure implements Serializable {
 
     @Id

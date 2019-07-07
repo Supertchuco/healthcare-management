@@ -83,7 +83,7 @@ public class InstitutionServiceTest {
 
     @Test
     public void shouldFindHealthCareInstitutionByCNPJWithSuccess() {
-        doReturn(institution).when(institutionRepository).findByCNPJ(anyString());
+        doReturn(institution).when(institutionRepository).findByCnpj(anyString());
         assertNotNull(institutionService.findByCNPJ(VALID_CNPJ_1));
     }
 

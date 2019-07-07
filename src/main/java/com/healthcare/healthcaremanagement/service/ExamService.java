@@ -50,12 +50,12 @@ public class ExamService {
         }
     }
 
-    private Exam createExamObject(final ExamDto examDto, final Institution healthcareInstitution,
+    private Exam createExamObject(final ExamDto examDto, final Institution institution,
                                   final boolean retrieved) {
         return new Exam(procedureService.initializeProcedure(examDto),
                 patientService.initializePatient(examDto),
                 physicianService.initializePhysician(examDto),
-                healthcareInstitution,
+                institution,
                 retrieved);
     }
 
@@ -90,6 +90,7 @@ public class ExamService {
         try {
             Exam exam = createExamObject(examDto, institution,
                     examDatabase.isRetrieved());
+            exam.setId(examId);
             return examRepository.save(exam);
         } catch (Exception exception) {
             log.error("Error to create exam", exception);

@@ -25,6 +25,7 @@ public class PatientService {
     public Patient initializePatient(final ExamDto examDto) {
         log.info("Initialize patient object");
         validateCPF(examDto.getPatientCPF());
+        examDto.setPatientGender(examDto.getPatientGender().toUpperCase());
         validateGender(examDto.getPatientGender());
         Patient patient = patientRepository.findByCpf(examDto.getPatientCPF());
         if (isNull(patient)) {
