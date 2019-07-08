@@ -1,6 +1,7 @@
 package com.healthcare.healthcaremanagement.controller;
 
 import com.healthcare.healthcaremanagement.dto.InstitutionDto;
+import com.healthcare.healthcaremanagement.dto.UserDto;
 import com.healthcare.healthcaremanagement.entity.Institution;
 import com.healthcare.healthcaremanagement.entity.User;
 import com.healthcare.healthcaremanagement.service.InstitutionService;
@@ -40,10 +41,27 @@ public class UserController {
     @ApiOperation(value = "Get all users on database.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK", response = User.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = InstitutionDto.class),
-            @ApiResponse(code = 500, message = "Internal Server ErrorMessage", response = InstitutionDto.class)
+            @ApiResponse(code = 400, message = "Bad Request", response = String.class),
+            @ApiResponse(code = 500, message = "Internal Server ErrorMessage", response = String.class)
     })
     public List<User> getAllUsers() {
         return userService.findAllUsers();
+    }
+
+    /**
+     * Create user on database.
+     *
+     * @return 200 success
+     */
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Create an users on database.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = User.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = String.class),
+            @ApiResponse(code = 500, message = "Internal Server ErrorMessage", response = String.class)
+    })
+    public User createUser(@Valid @RequestBody UserDto userDto) {
+        return userService.createUser(userDto);
     }
 }

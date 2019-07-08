@@ -34,11 +34,15 @@ public class ExamService {
     @Autowired
     private InstitutionService institutionService;
 
+    @Autowired
+    private UserService userService;
+
     @Transactional
     public Exam createExam(final ExamDto examDto) {
         log.info("Create new exam registry");
         try {
             Institution institution = institutionService.findByCNPJ(examDto.getInstitutionCNPJ());
+            userService.validateUserAccess(institution);
             institution = institutionService.chargePixeonValue(CREATION_EXAM_PIXEON_PRICE, institution);
             final Exam exam = createExamObject(examDto, institution, false);
             return examRepository.save(exam);
@@ -63,6 +67,7 @@ public class ExamService {
     public Exam retrieveExam(final int examId) {
         log.info("Retrieve exam with id {}", examId);
         final Exam exam = findExamById(examId);
+        userService.validateUserAccess(exam.getInstitution());
         try {
             updateExamRetrievedProcess(exam);
             return exam;
@@ -78,6 +83,7 @@ public class ExamService {
     public void deleteExam(final int examId) {
         log.info("Delete exam with id {}", examId);
         final Exam exam = findExamById(examId);
+        userService.validateUserAccess(exam.getInstitution());
         examRepository.delete(exam);
     }
 
@@ -85,6 +91,7 @@ public class ExamService {
     public Exam updateExam(final int examId, final ExamDto examDto) {
         log.info("Update exam with id {}", examId);
         final Exam examDatabase = findExamById(examId);
+        userService.validateUserAccess(examDatabase.getInstitution());
         final Institution institution = institutionService
                 .findByCNPJ(examDto.getInstitutionCNPJ());
         try {

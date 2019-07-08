@@ -20,6 +20,9 @@ public enum ErrorMessages {
     INVALID_CPF("Invalid CPF"),
     INVALID_GENDER("Invalid gender"),
     RETRIEVE_EXAM("Error on retrieve exam from database"),
+    ACCESS_DENIED("Access denied"),
+    EMAIL_ALREADY_EXIST("Email already in use by other user"),
+    INVALID_ROLE("Role not exist"),
     UPDATE_EXAM("Error during update exam in database");
 
     private String message;

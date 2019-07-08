@@ -2,13 +2,11 @@ package com.healthcare.healthcaremanagement.repository;
 
 import com.healthcare.healthcaremanagement.entity.Institution;
 import com.healthcare.healthcaremanagement.entity.User;
+import com.healthcare.healthcaremanagement.enumerator.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.sql.Driver;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 @Component
@@ -30,7 +28,7 @@ public class DatabaseLoader implements CommandLineRunner {
         Institution institution = new Institution("25690845632", "Balada Institution");
         institutionRepository.save(institution);
 
-        User user = new User("test", "test");
+        User user = new User("test", "test", UserRole.ADMIN.getRole());
         institution.setUsers(Arrays.asList(user));
         user.setInstitution(institution);
 
