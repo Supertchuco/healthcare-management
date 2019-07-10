@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PhysicianRepository extends CrudRepository<Physician, Integer> {
 
-    Physician findByCrm(String Crm);
+    Physician findByCrm(String crm);
 }

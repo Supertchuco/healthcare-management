@@ -3,10 +3,10 @@ package com.healthcare.healthcaremanagement.service;
 import com.healthcare.healthcaremanagement.dto.UserDto;
 import com.healthcare.healthcaremanagement.entity.Institution;
 import com.healthcare.healthcaremanagement.entity.User;
-import com.healthcare.healthcaremanagement.enumerator.Gender;
 import com.healthcare.healthcaremanagement.enumerator.UserRole;
 import com.healthcare.healthcaremanagement.exception.AccessDeniedException;
 import com.healthcare.healthcaremanagement.exception.EmailAlreadyExistOnDatabaseException;
+import com.healthcare.healthcaremanagement.exception.InvalidCNPJException;
 import com.healthcare.healthcaremanagement.exception.InvalidRoleException;
 import com.healthcare.healthcaremanagement.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Service
 @Slf4j
@@ -42,6 +44,10 @@ public class UserService {
         if (StringUtils.equals(userDto.getRole(), UserRole.ADMIN.getRole())) {
             return userRepository.save(new User(userDto.getEmail(), userDto.getPassword(), userDto.getRole()));
         } else {
+            if (isBlank(userDto.getCnpj())) {
+                log.error("CNPJ cannot be null if user role is Client Admin");
+                throw new InvalidCNPJException();
+            }
             final Institution institution = institutionService.findByCNPJ(userDto.getCnpj());
             return userRepository.save(new User(userDto.getEmail(), userDto.getPassword(), userDto.getRole(), institution));
         }
@@ -68,7 +74,7 @@ public class UserService {
         final User user = getUserInAuthenticationContext();
         if (!StringUtils.equals(user.getRole(), accessRole)) {
             log.error("User does not have necessary role for this operation, current role: {} and role necessary for this"
-                    + "operation: {}", user.getRole(), accessRole);
+                + "operation: {}", user.getRole(), accessRole);
             throw new AccessDeniedException();
         }
     }
@@ -86,7 +92,7 @@ public class UserService {
     }
 
     private void validateRole(final String role) {
-        if (!EnumUtils.isValidEnum(Gender.class, role)) {
+        if (!EnumUtils.isValidEnum(UserRole.class, role)) {
             log.error("Invalid role value {}", role);
             throw new InvalidRoleException();
         }

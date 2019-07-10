@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public class ExamDto implements Serializable {
 
     private String institutionCNPJ;

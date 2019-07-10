@@ -1,0 +1,10 @@
+{
+  "institutionCNPJ": "99111000999900",
+  "patientAge": 5,
+  "patientCPF": "00000055599",
+  "patientGender": "male",
+  "patientName": "Rodrigo Suco",
+  "physicianCrm": "999",
+  "physicianName": "Doctor Rey",
+  "procedure": "heart cirurgy "
+}

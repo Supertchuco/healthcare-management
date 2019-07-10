@@ -22,17 +22,17 @@ import static org.mockito.Mockito.*;
 /**
  * Health Care Institution service unit tests.
  */
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "checkstyle:AbbreviationAsWordInName"})
 public class InstitutionServiceTest {
 
-    private final static String VALIDATE_CNPJ_INSTITUTION_METHOD = "validateCNPJInstitution";
-    private final static String INSTITUTION_NAME = "institutionTest";
-    private final static String VALID_CNPJ_1 = "12345678910112";
-    private final static String VALID_CNPJ_2 = "22.111.111/9999-00";
+    private static final String VALIDATE_CNPJ_INSTITUTION_METHOD = "validateCNPJInstitution";
+    private static final String INSTITUTION_NAME = "institutionTest";
+    private static final String VALID_CNPJ_1 = "12345678910112";
+    private static final String VALID_CNPJ_2 = "22.111.111/9999-00";
 
-    private final static String INVALID_CNPJ_1 = "12345678911";
-    private final static String INVALID_CNPJ_2 = "22.111.11C/9999-00";
-    private final static String INVALID_CNPJ_3 = "22.111.11C/999-00";
+    private static final String INVALID_CNPJ_1 = "12345678911";
+    private static final String INVALID_CNPJ_2 = "22.111.11C/9999-00";
+    private static final String INVALID_CNPJ_3 = "22.111.11C/999-00";
 
     @InjectMocks
     private InstitutionService institutionService;

@@ -20,17 +20,18 @@ import static org.mockito.Mockito.doReturn;
 /**
  * Patient service unit tests.
  */
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public class PatientServiceTest extends BaseTest {
 
-    private final static String VALIDATE_CPF_METHOD = "validateCPF";
-    private final static String VALIDATE_GENDER_METHOD = "validateGender";
+    private static final String VALIDATE_CPF_METHOD = "validateCPF";
+    private static final String VALIDATE_GENDER_METHOD = "validateGender";
 
-    private final static String VALID_CPF_1 = "357.672.271-87";
-    private final static String VALID_CPF_2 = "35767227187";
+    private static final String VALID_CPF_1 = "357.672.271-87";
+    private static final String VALID_CPF_2 = "35767227187";
 
-    private final static String INVALID_CPF_1 = "3576722718";
-    private final static String INVALID_CPF_2 = "357.6B2.271-87";
-    private final static String INVALID_CPF_3 = "357.672.27-87";
+    private static final String INVALID_CPF_1 = "3576722718";
+    private static final String INVALID_CPF_2 = "357.6B2.271-87";
+    private static final String INVALID_CPF_3 = "357.672.27-87";
 
     @InjectMocks
     private PatientService patientService;

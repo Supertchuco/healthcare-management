@@ -23,7 +23,6 @@ import javax.validation.Valid;
 @Controller
 public class InstitutionController {
 
-
     @Autowired
     private InstitutionService institutionService;
 
@@ -41,7 +40,7 @@ public class InstitutionController {
             @ApiResponse(code = 400, message = "Bad Request", response = InstitutionDto.class),
             @ApiResponse(code = 500, message = "Internal Server ErrorMessage", response = InstitutionDto.class)
     })
-    public Institution Institution(@Valid @RequestBody InstitutionDto institutionDto) {
+    public Institution institution(@Valid @RequestBody InstitutionDto institutionDto) {
         log.info("Create new health care institution on database with CNPJ:{} and name:{}", institutionDto.getCnpj(), institutionDto.getName());
         return institutionService.createInstitution(institutionDto);
     }

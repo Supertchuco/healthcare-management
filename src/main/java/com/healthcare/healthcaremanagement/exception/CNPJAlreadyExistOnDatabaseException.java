@@ -1,8 +1,8 @@
 package com.healthcare.healthcaremanagement.exception;
 
 /**
- *  Invalid CNPJ exception.
+ * CNPJ already exist on database exception.
  */
 @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
-public class InvalidCNPJException extends RuntimeException {
+public class CNPJAlreadyExistOnDatabaseException extends RuntimeException {
 }

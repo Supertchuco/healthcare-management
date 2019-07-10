@@ -17,6 +17,7 @@ import static org.apache.commons.lang3.StringUtils.length;
 
 @Service
 @Slf4j
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public class PatientService {
 
     @Autowired
@@ -24,7 +25,7 @@ public class PatientService {
 
     public Patient initializePatient(final ExamDto examDto) {
         log.info("Initialize patient object");
-        validateCPF(examDto.getPatientCPF());
+        examDto.setPatientCPF(formatCPF(examDto.getPatientCPF()));
         examDto.setPatientGender(examDto.getPatientGender().toUpperCase());
         validateGender(examDto.getPatientGender());
         Patient patient = patientRepository.findByCpf(examDto.getPatientCPF());
@@ -36,12 +37,13 @@ public class PatientService {
         return patient;
     }
 
-    private void validateCPF(String cpf) {
-        cpf = cpf.replaceAll("[./-]", "");
+    private String formatCPF(final String cpf) {
+        final String cpfFormatted = cpf.replaceAll("[./-]", "");
         if (length(cpf) != 11 || !isNumeric(cpf)) {
             log.error("Invalid CNPJ {}", cpf);
             throw new InvalidCPFException();
         }
+        return cpfFormatted;
     }
 
     private void validateGender(final String gender) {

@@ -1,12 +1,12 @@
 plugins {
-	id 'org.asciidoctor.convert' version '1.5.3'
-	id 'org.springframework.boot' version '2.1.6.RELEASE'
-	id 'java'
+    id 'org.asciidoctor.convert' version '1.5.3'
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'java'
 }
 
 
 jar {
-	baseName = 'healthcare-management'
+    baseName = 'healthcare-management'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -17,69 +17,73 @@ group = 'com.healthcare'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+bootJar {
+    baseName = 'healthcare-management'
+}
+
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 ext {
-	set('snippetsDir', file("build/generated-snippets"))
+    set('snippetsDir', file("build/generated-snippets"))
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	//apache commons
-	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
-	compile group: 'commons-io', name: 'commons-io', version: '2.6'
-	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.9'
+    //apache commons
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.9'
 
-	//lombok
-	annotationProcessor 'org.projectlombok:lombok'
-	compileOnly 'org.projectlombok:lombok'
-	
-	//memory database
-	runtimeOnly 'com.h2database:h2'
+    //lombok
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
 
-	//tests
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'org.springframework.security:spring-security-test'
+    //memory database
+    runtimeOnly 'com.h2database:h2'
 
-	//swagger
-	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    //tests
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'org.springframework.security:spring-security-test'
 
-	//runtimeOnly 'mysql:mysql-connector-java'
-	
+    //swagger
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+    //runtimeOnly 'mysql:mysql-connector-java'
+
 }
 
 test {
-	outputs.dir snippetsDir
+    outputs.dir snippetsDir
 }
 
 asciidoctor {
-	inputs.dir snippetsDir
-	dependsOn test
+    inputs.dir snippetsDir
+    dependsOn test
 }
 
 checkstyle {
-	toolVersion = '8.18'
-	ignoreFailures = false
-	maxWarnings = 2
-	configFile = file('config/checkstyle/checkstyle.xml')
+    toolVersion = '8.18'
+    ignoreFailures = false
+    maxWarnings = 2
+    configFile = file('config/checkstyle/checkstyle.xml')
 }
 
 pmd {
-	toolVersion = '5.5.7'
-	ignoreFailures = false
-	ruleSetFiles = files('config/pmd/pmd.xml')
+    toolVersion = '5.5.7'
+    ignoreFailures = false
+    ruleSetFiles = files('config/pmd/pmd.xml')
 }

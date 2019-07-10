@@ -17,7 +17,7 @@ import static java.util.Objects.isNull;
 @Slf4j
 public class ExamService {
 
-    private final static int CREATION_EXAM_PIXEON_PRICE = 1;
+    private static final int CREATION_EXAM_PIXEON_PRICE = 1;
 
     @Autowired
     private ExamRepository examRepository;
@@ -71,8 +71,8 @@ public class ExamService {
         try {
             updateExamRetrievedProcess(exam);
             return exam;
-        } catch (InstitutionInsufficientPixeonBalanceException |
-                InstitutionNotFoundException ex) {
+        } catch (InstitutionInsufficientPixeonBalanceException
+            | InstitutionNotFoundException ex) {
             throw ex;
         } catch (Exception ex) {
             log.error("Unexpected exception in retrieve exam", ex);

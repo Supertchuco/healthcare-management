@@ -24,7 +24,7 @@ public class Institution implements Serializable {
     private String name;
 
     @Column
-    private int pixeon;
+    private Integer pixeon;
 
     @JsonIgnore
     @OneToMany(mappedBy = "institution", cascade = CascadeType.ALL)

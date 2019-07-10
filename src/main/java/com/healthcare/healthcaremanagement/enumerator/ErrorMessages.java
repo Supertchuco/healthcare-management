@@ -23,7 +23,8 @@ public enum ErrorMessages {
     ACCESS_DENIED("Access denied"),
     EMAIL_ALREADY_EXIST("Email already in use by other user"),
     INVALID_ROLE("Role not exist"),
-    UPDATE_EXAM("Error during update exam in database");
+    UPDATE_EXAM("Error during update exam in database"),
+    CNPJ_ALREADY_EXIST("CNPJ already exist on database");
 
     private String message;
 }

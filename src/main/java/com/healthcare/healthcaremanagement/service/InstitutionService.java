@@ -2,6 +2,7 @@ package com.healthcare.healthcaremanagement.service;
 
 import com.healthcare.healthcaremanagement.dto.InstitutionDto;
 import com.healthcare.healthcaremanagement.entity.Institution;
+import com.healthcare.healthcaremanagement.exception.CNPJAlreadyExistOnDatabaseException;
 import com.healthcare.healthcaremanagement.exception.CreateHealthCareInstitutionException;
 import com.healthcare.healthcaremanagement.exception.InstitutionInsufficientPixeonBalanceException;
 import com.healthcare.healthcaremanagement.exception.InstitutionNotFoundException;
@@ -12,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.StringUtils.isNumeric;
 import static org.apache.commons.lang3.StringUtils.length;
 
 @Service
 @Slf4j
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public class InstitutionService {
 
     @Autowired
@@ -24,7 +27,11 @@ public class InstitutionService {
 
     public Institution createInstitution(final InstitutionDto institutionDto) {
         log.info("Create new institution on database");
-        validateCNPJInstitution(institutionDto.getCnpj());
+        institutionDto.setCnpj(formatCNPJInstitution(institutionDto.getCnpj()));
+        if (nonNull(institutionRepository.findByCnpj(institutionDto.getCnpj()))) {
+            log.error("Already exist an institution with this CNPJ {} ", institutionDto.getCnpj());
+            throw new CNPJAlreadyExistOnDatabaseException();
+        }
         try {
             return institutionRepository.save(new Institution(institutionDto.getCnpj(), institutionDto.getName()));
         } catch (Exception exception) {
@@ -51,11 +58,12 @@ public class InstitutionService {
         return institution;
     }
 
-    private void validateCNPJInstitution(String cnpj) {
-        cnpj = cnpj.replaceAll("[./-]", "");
+    private String formatCNPJInstitution(final String cnpj) {
+        final String cnpjFormatted = cnpj.replaceAll("[./-]", "");
         if (length(cnpj) != 14 || !isNumeric(cnpj)) {
             log.error("Invalid CNPJ {}", cnpj);
             throw new InvalidCNPJException();
         }
+        return cnpjFormatted;
     }
 }
