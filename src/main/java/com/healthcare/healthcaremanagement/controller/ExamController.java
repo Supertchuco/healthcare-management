@@ -81,7 +81,7 @@ public class ExamController {
             @ApiResponse(code = 400, message = "Bad Request", response = String.class),
             @ApiResponse(code = 500, message = "Internal Server ErrorMessage", response = String.class)
     })
-    public ResponseEntity DeleteExam(@PathVariable int examId) {
+    public ResponseEntity deleteExam(@PathVariable int examId) {
         log.info("Delete exam on database with exam id:{}", examId);
         examService.deleteExam(examId);
         return ResponseEntity.ok().build();

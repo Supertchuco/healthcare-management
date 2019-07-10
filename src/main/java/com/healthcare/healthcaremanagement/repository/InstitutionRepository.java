@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InstitutionRepository extends CrudRepository<Institution, Integer> {
 
-    Institution findByCnpj(final String cnpj);
+    Institution findByCnpj(String cnpj);
 }

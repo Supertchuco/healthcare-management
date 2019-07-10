@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PatientRepository extends CrudRepository<Patient, Integer> {
 
-    Patient findByCpf(final String cpf);
-
-    Patient findByName(final String name);
+    Patient findByCpf(String cpf);
 }

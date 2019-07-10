@@ -1,6 +1,5 @@
 package com.healthcare.healthcaremanagement.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,17 +20,17 @@ public class Exam implements Serializable {
     @Column
     private int id;
 
-    @OneToOne(cascade =  CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "name")
     @JsonManagedReference
     private Procedure procedure;
 
-    @OneToOne(cascade =  CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cpf")
     @JsonManagedReference
     private Patient patient;
 
-    @OneToOne(cascade =  CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "crm")
     @JsonManagedReference
     private Physician physician;

@@ -46,8 +46,8 @@ public class ExceptionResourceHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(InstitutionInsufficientPixeonBalanceException.class)
     public final ResponseEntity<ExceptionResponse> handleInstitutionInsufficientPixeonBalanceException(final WebRequest request) {
-        final ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ErrorMessages.INSTITUTE_INSUFFICIENT_PIXEON_BALANCE.getMessage(),
-                request.getDescription(false));
+        final ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),
+                ErrorMessages.INSTITUTE_INSUFFICIENT_PIXEON_BALANCE.getMessage(),request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -85,7 +85,6 @@ public class ExceptionResourceHandler extends ResponseEntityExceptionHandler {
                 request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
-
 
     @ExceptionHandler(UpdateExamException.class)
     public final ResponseEntity<ExceptionResponse> handleUpdateExamException(final WebRequest request) {

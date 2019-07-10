@@ -1,10 +1,7 @@
 package com.healthcare.healthcaremanagement.controller;
 
-import com.healthcare.healthcaremanagement.dto.InstitutionDto;
 import com.healthcare.healthcaremanagement.dto.UserDto;
-import com.healthcare.healthcaremanagement.entity.Institution;
 import com.healthcare.healthcaremanagement.entity.User;
-import com.healthcare.healthcaremanagement.service.InstitutionService;
 import com.healthcare.healthcaremanagement.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +23,6 @@ import java.util.List;
 @Slf4j
 @Controller
 public class UserController {
-
 
     @Autowired
     private UserService userService;

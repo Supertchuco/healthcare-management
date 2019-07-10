@@ -7,7 +7,6 @@ import com.healthcare.healthcaremanagement.enumerator.Gender;
 import com.healthcare.healthcaremanagement.enumerator.UserRole;
 import com.healthcare.healthcaremanagement.exception.AccessDeniedException;
 import com.healthcare.healthcaremanagement.exception.EmailAlreadyExistOnDatabaseException;
-import com.healthcare.healthcaremanagement.exception.InvalidGenderException;
 import com.healthcare.healthcaremanagement.exception.InvalidRoleException;
 import com.healthcare.healthcaremanagement.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,6 @@ import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,7 +41,7 @@ public class UserService {
         validateRole(userDto.getRole());
         if (StringUtils.equals(userDto.getRole(), UserRole.ADMIN.getRole())) {
             return userRepository.save(new User(userDto.getEmail(), userDto.getPassword(), userDto.getRole()));
-        }else{
+        } else {
             final Institution institution = institutionService.findByCNPJ(userDto.getCnpj());
             return userRepository.save(new User(userDto.getEmail(), userDto.getPassword(), userDto.getRole(), institution));
         }
@@ -69,8 +67,8 @@ public class UserService {
     public void validateUserRole(final String accessRole) {
         final User user = getUserInAuthenticationContext();
         if (!StringUtils.equals(user.getRole(), accessRole)) {
-            log.error("User does not have necessary role for this operation, current role: {} and role necessary for this" +
-                    "operation: {}", user.getRole(), accessRole);
+            log.error("User does not have necessary role for this operation, current role: {} and role necessary for this"
+                    + "operation: {}", user.getRole(), accessRole);
             throw new AccessDeniedException();
         }
     }

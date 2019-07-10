@@ -30,7 +30,7 @@ public class User implements Serializable {
     @JoinColumn(name = "cnpj", nullable = true)
     private Institution institution;
 
-    public User(final String email, final String password, final String role){
+    public User(final String email, final String password, final String role) {
         this.email = email;
         this.password = password;
         this.role = role;

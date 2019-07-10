@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ProcedureRepository extends CrudRepository<Procedure, Integer> {
 
-    Procedure findByName(final String name);
+    Procedure findByName(String name);
 }
