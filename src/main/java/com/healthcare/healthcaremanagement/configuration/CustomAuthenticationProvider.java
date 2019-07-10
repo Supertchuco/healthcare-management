@@ -1,10 +1,8 @@
 package com.healthcare.healthcaremanagement.configuration;
 
 import com.healthcare.healthcaremanagement.entity.User;
-import com.healthcare.healthcaremanagement.exception.AccessDeniedException;
 import com.healthcare.healthcaremanagement.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,9 +31,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         User user = userService.findUserByEmailAndPassword(email, password);
 
-        if(Objects.isNull(user)){
+        if (Objects.isNull(user)) {
             log.error("Access not allowed for user with email: {}", email);
-            throw new AuthenticationException("Can not log in"){
+            throw new AuthenticationException("Can not log in") {
             };
         }
 

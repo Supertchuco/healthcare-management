@@ -1,0 +1,3 @@
+DELETE FROM Exam;
+DELETE FROM User;
+DELETE FROM Institution;

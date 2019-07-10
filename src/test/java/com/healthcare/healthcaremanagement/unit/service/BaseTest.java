@@ -5,8 +5,8 @@ import com.healthcare.healthcaremanagement.enumerator.Gender;
 
 public class BaseTest {
 
-    public final static String INSTITUTION_NAME = "institutionTest";
     public final static String INSTITUTION_CNPJ = "123456789";
+    public final static String INSTITUTION_NAME = "institutionTest";
     public final static String PATIENT_NAME = "Etevaldo Silva";
     public final static String PATIENT_CPF = "00309923412";
     public final static int PATIENT_AGE = 56;
@@ -16,8 +16,7 @@ public class BaseTest {
     public final static String PROCEDURE_NAME = "Rectal examination";
 
     public ExamDto createExamDto() {
-        return new ExamDto(INSTITUTION_NAME,
-                INSTITUTION_CNPJ,
+        return new ExamDto(INSTITUTION_CNPJ,
                 PATIENT_NAME,
                 PATIENT_CPF,
                 PATIENT_AGE,
