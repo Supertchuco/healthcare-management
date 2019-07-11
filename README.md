@@ -62,7 +62,7 @@ To run application without an IDE you need to follow these steps:
 	 application to use this profile (spring.profiles.active=mysql)
 	 and configure the database connection in application-mysql.properties file,
 	 if you want to use docker you need to configure it in profile file, you can find this configuration in docker-compose file (SPRING_PROFILES_ACTIVE);
-	 -The application can create the database table structure every time that the application are started, if you want to do it, you need to discomment( remove #) in this line "spring.jpa.hibernate.ddl-auto=update" on application.properties.
+	 -The application can create the database table structure every time that the application are started (spring.jpa.hibernate.ddl-auto=update), it is only configured in mysql profile.
 ```
 Inside Intellij IDE:
 ```bash
