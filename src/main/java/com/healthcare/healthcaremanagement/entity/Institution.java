@@ -14,6 +14,7 @@ import java.util.List;
 @Table(name = "Institution")
 @AllArgsConstructor
 @NoArgsConstructor
+@SuppressWarnings("PMD.ImmutableField")
 public class Institution implements Serializable {
 
     @Id

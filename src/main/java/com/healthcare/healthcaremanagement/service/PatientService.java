@@ -11,13 +11,15 @@ import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
+
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.isNumeric;
 import static org.apache.commons.lang3.StringUtils.length;
 
 @Service
 @Slf4j
-@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
+@SuppressWarnings({"checkstyle:AbbreviationAsWordInName", "PMD.CommentDefaultAccessModifier"})
 public class PatientService {
 
     @Autowired
@@ -26,7 +28,7 @@ public class PatientService {
     public Patient initializePatient(final ExamDto examDto) {
         log.info("Initialize patient object");
         examDto.setPatientCPF(formatCPF(examDto.getPatientCPF()));
-        examDto.setPatientGender(examDto.getPatientGender().toUpperCase());
+        examDto.setPatientGender(examDto.getPatientGender().toUpperCase(Locale.ENGLISH));
         validateGender(examDto.getPatientGender());
         Patient patient = patientRepository.findByCpf(examDto.getPatientCPF());
         if (isNull(patient)) {
@@ -39,7 +41,7 @@ public class PatientService {
 
     private String formatCPF(final String cpf) {
         final String cpfFormatted = cpf.replaceAll("[./-]", "");
-        if (length(cpf) != 11 || !isNumeric(cpf)) {
+        if (length(cpfFormatted) != 11 || !isNumeric(cpfFormatted)) {
             log.error("Invalid CNPJ {}", cpf);
             throw new InvalidCPFException();
         }

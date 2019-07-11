@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Table(name = "Exam")
 @AllArgsConstructor
 @NoArgsConstructor
+@SuppressWarnings({"PMD.ImmutableField", "PMD.ShortVariable"})
 public class Exam implements Serializable {
 
     @Id

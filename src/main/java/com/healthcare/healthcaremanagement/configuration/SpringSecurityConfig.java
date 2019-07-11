@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+@SuppressWarnings("PMD.SignatureDeclareThrowsException")
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -15,7 +16,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomAuthenticationProvider authProvider;
 
     @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+    public void configAuthentication(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authProvider);
     }
 

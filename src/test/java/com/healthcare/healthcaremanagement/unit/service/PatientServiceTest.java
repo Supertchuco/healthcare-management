@@ -20,10 +20,10 @@ import static org.mockito.Mockito.doReturn;
 /**
  * Patient service unit tests.
  */
-@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
+@SuppressWarnings({"checkstyle:AbbreviationAsWordInName", "PMD.ImmutableField"})
 public class PatientServiceTest extends BaseTest {
 
-    private static final String VALIDATE_CPF_METHOD = "validateCPF";
+    private static final String FORMAT_CPF_METHOD = "formatCPF";
     private static final String VALIDATE_GENDER_METHOD = "validateGender";
 
     private static final String VALID_CPF_1 = "357.672.271-87";
@@ -70,31 +70,31 @@ public class PatientServiceTest extends BaseTest {
     @Test
     public void shouldNotThrowInvalidCPFExceptionWhenCPFIsValid() {
         inputArray = new Object[]{VALID_CPF_1};
-        ReflectionTestUtils.invokeMethod(patientService, VALIDATE_CPF_METHOD, inputArray);
+        assertEquals("35767227187", ReflectionTestUtils.invokeMethod(patientService, FORMAT_CPF_METHOD, inputArray));
     }
 
     @Test
     public void shouldNotThrowInvalidCPFExceptionWhenCPFHaveOnlyNumbersAndIsValid() {
         inputArray = new Object[]{VALID_CPF_2};
-        ReflectionTestUtils.invokeMethod(patientService, VALIDATE_CPF_METHOD, inputArray);
+        assertEquals(VALID_CPF_2, ReflectionTestUtils.invokeMethod(patientService, FORMAT_CPF_METHOD, inputArray));
     }
 
     @Test(expected = InvalidCPFException.class)
     public void shouldThrowInvalidCPFExceptionWhenCNPFIsShort() {
         inputArray = new Object[]{INVALID_CPF_3};
-        ReflectionTestUtils.invokeMethod(patientService, VALIDATE_CPF_METHOD, inputArray);
+        ReflectionTestUtils.invokeMethod(patientService, FORMAT_CPF_METHOD, inputArray);
     }
 
     @Test(expected = InvalidCPFException.class)
     public void shouldThrowInvalidCPFExceptionWhenCNPFIsShortWithOnlyNumbers() {
         inputArray = new Object[]{INVALID_CPF_1};
-        ReflectionTestUtils.invokeMethod(patientService, VALIDATE_CPF_METHOD, inputArray);
+        ReflectionTestUtils.invokeMethod(patientService, FORMAT_CPF_METHOD, inputArray);
     }
 
     @Test(expected = InvalidCPFException.class)
     public void shouldThrowInvalidCPFExceptionWhenCNPFHaveLetter() {
         inputArray = new Object[]{INVALID_CPF_2};
-        ReflectionTestUtils.invokeMethod(patientService, VALIDATE_CPF_METHOD, inputArray);
+        ReflectionTestUtils.invokeMethod(patientService, FORMAT_CPF_METHOD, inputArray);
     }
 
     @Test

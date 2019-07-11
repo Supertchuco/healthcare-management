@@ -2,7 +2,7 @@
   "institutionCNPJ": "99111000999900",
   "patientAge": 59,
   "patientCPF": "00000055599",
-  "patientGender": "male",
+  "patientGender": "other",
   "patientName": "Rodrigo Suco",
   "physicianCrm": "999",
   "physicianName": "Doctor Rey",

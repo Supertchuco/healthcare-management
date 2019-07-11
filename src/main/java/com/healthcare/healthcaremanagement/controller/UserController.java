@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,23 +25,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    /**
-     * Get all users on database.
-     *
-     * @return 200 success
-     */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Get all users on database.")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "OK", response = User.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = String.class),
-            @ApiResponse(code = 500, message = "Internal Server ErrorMessage", response = String.class)
-    })
-    public List<User> getAllUsers() {
-        return userService.findAllUsers();
-    }
 
     /**
      * Create user on database.

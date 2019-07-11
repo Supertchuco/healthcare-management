@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Slf4j
 @ControllerAdvice
-@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
+@SuppressWarnings({"checkstyle:AbbreviationAsWordInName", "PMD.TooManyMethods"})
 public class ExceptionResourceHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
@@ -22,13 +22,6 @@ public class ExceptionResourceHandler extends ResponseEntityExceptionHandler {
         final ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ErrorMessages.UNEXPECTED_ERROR.getMessage(),
             request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(CreateExamException.class)
-    public final ResponseEntity<ExceptionResponse> handleCreateExamException(final WebRequest request) {
-        final ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ErrorMessages.CREATE_EXAM.getMessage(),
-            request.getDescription(false));
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(CreateHealthCareInstitutionException.class)
@@ -83,13 +76,6 @@ public class ExceptionResourceHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(RetrieveExamException.class)
     public final ResponseEntity<ExceptionResponse> handleRetrieveExamException(final WebRequest request) {
         final ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ErrorMessages.RETRIEVE_EXAM.getMessage(),
-            request.getDescription(false));
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(UpdateExamException.class)
-    public final ResponseEntity<ExceptionResponse> handleUpdateExamException(final WebRequest request) {
-        final ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ErrorMessages.UPDATE_EXAM.getMessage(),
             request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }

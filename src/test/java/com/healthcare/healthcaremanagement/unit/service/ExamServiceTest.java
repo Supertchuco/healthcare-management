@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 /**
  * Exam service unit tests.
  */
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.UnusedPrivateField"})
 public class ExamServiceTest extends BaseTest {
 
     @InjectMocks
@@ -28,7 +28,10 @@ public class ExamServiceTest extends BaseTest {
     private ExamRepository examRepository;
 
     @Mock
-    private InstitutionService healthcareInstitutionService;
+    private UserService userService;
+
+    @Mock
+    private InstitutionService institutionService;
 
     @Mock
     private ProcedureService procedureService;
@@ -39,7 +42,7 @@ public class ExamServiceTest extends BaseTest {
     @Mock
     private PatientService patientService;
 
-    private Institution healthcareInstitution = new Institution(INSTITUTION_CNPJ, INSTITUTION_NAME);
+    private final Institution institution = new Institution(INSTITUTION_CNPJ, INSTITUTION_NAME);
 
     private Object[] inputArray;
 
@@ -50,15 +53,17 @@ public class ExamServiceTest extends BaseTest {
 
     @Test
     public void shouldCreateExamWithSuccess() {
-        doReturn(healthcareInstitution).when(healthcareInstitutionService).findByCNPJ(any());
-        doReturn(healthcareInstitution).when(healthcareInstitutionService).chargePixeonValue(Mockito.any(Integer.class),
+        doReturn(institution).when(institutionService).findByCNPJ(any());
+        doReturn(institution).when(institutionService).chargePixeonValue(Mockito.any(Integer.class),
                 Mockito.any(Institution.class));
 
         doReturn(new Procedure(PROCEDURE_NAME)).when(procedureService).initializeProcedure(Mockito.any(ExamDto.class));
-        doReturn(new Physician(PHYSICIAN_CRM, PHYSICIAN_NAME)).when(physicianService).initializePhysician(Mockito.any(ExamDto.class));
-        doReturn(new Patient(PATIENT_CPF, PATIENT_NAME, PATIENT_AGE, PATIENT_GENDER)).when(patientService).initializePatient(Mockito.any(ExamDto.class));
+        doReturn(new Physician(PHYSICIAN_CRM, PHYSICIAN_NAME)).when(physicianService)
+                .initializePhysician(Mockito.any(ExamDto.class));
+        doReturn(new Patient(PATIENT_CPF, PATIENT_NAME, PATIENT_AGE, PATIENT_GENDER)).when(patientService)
+                .initializePatient(Mockito.any(ExamDto.class));
 
-        doReturn(new Exam(null, null, null, healthcareInstitution,
+        doReturn(new Exam(null, null, null, institution,
                 false)).when(examRepository).save(any(Exam.class));
 
         assertNotNull(examService.createExam(createExamDto()));
@@ -68,33 +73,16 @@ public class ExamServiceTest extends BaseTest {
 
     @Test(expected = InstitutionNotFoundException.class)
     public void shouldThrowInstitutionNotFoundExceptionWhenInstitutionWasNotFoundInDatabase() {
-        doThrow(InstitutionNotFoundException.class).when(healthcareInstitutionService).findByCNPJ(any());
+        doThrow(InstitutionNotFoundException.class).when(institutionService).findByCNPJ(any());
         examService.createExam(createExamDto());
     }
 
     @Test(expected = InstitutionInsufficientPixeonBalanceException.class)
     public void shouldThrowInstitutionInsufficientPixeonBalanceExceptionWhenInstitutionHaveInsufficientPixeonBalance() {
-        doReturn(healthcareInstitution).when(healthcareInstitutionService).findByCNPJ(any());
-        doThrow(InstitutionInsufficientPixeonBalanceException.class).when(healthcareInstitutionService)
+        doReturn(institution).when(institutionService).findByCNPJ(any());
+        doThrow(InstitutionInsufficientPixeonBalanceException.class).when(institutionService)
                 .chargePixeonValue(Mockito.any(Integer.class),
                         Mockito.any(Institution.class));
-        examService.createExam(createExamDto());
-    }
-
-    @Test(expected = CreateExamException.class)
-    public void shouldThrowCreateExamExceptionWhenSomeUnknowErrorHappens() {
-
-        doReturn(healthcareInstitution).when(healthcareInstitutionService).findByCNPJ(any());
-        doReturn(healthcareInstitution).when(healthcareInstitutionService).chargePixeonValue(Mockito.any(Integer.class),
-                Mockito.any(Institution.class));
-
-        doReturn(new Procedure(PROCEDURE_NAME)).when(procedureService).initializeProcedure(Mockito.any(ExamDto.class));
-        doReturn(new Physician(PHYSICIAN_CRM, PHYSICIAN_NAME)).when(physicianService).initializePhysician(Mockito.any(ExamDto.class));
-        doReturn(new Patient(PATIENT_CPF, PATIENT_NAME, PATIENT_AGE, PATIENT_GENDER)).when(patientService)
-                .initializePatient(Mockito.any(ExamDto.class));
-
-        doThrow(NullPointerException.class).when(examRepository).save(any(Exam.class));
-
         examService.createExam(createExamDto());
     }
 
@@ -106,8 +94,8 @@ public class ExamServiceTest extends BaseTest {
         doReturn(new Patient(PATIENT_CPF, PATIENT_NAME, PATIENT_AGE, PATIENT_GENDER)).when(patientService)
                 .initializePatient(Mockito.any(ExamDto.class));
 
-        inputArray = new Object[]{createExamDto(), healthcareInstitution, false};
-        Exam exam = ReflectionTestUtils.invokeMethod(examService, "createExamObject", inputArray);
+        inputArray = new Object[]{createExamDto(), institution, false};
+        final Exam exam = ReflectionTestUtils.invokeMethod(examService, "createExamObject", inputArray);
 
         assertEquals(INSTITUTION_NAME, exam.getInstitution().getName());
         assertEquals(INSTITUTION_CNPJ, exam.getInstitution().getCnpj());
@@ -125,9 +113,9 @@ public class ExamServiceTest extends BaseTest {
 
     @Test
     public void shouldRetrieveExamWithSuccess() {
-        doReturn(new Exam(null, null, null, healthcareInstitution,
+        doReturn(new Exam(null, null, null, institution,
                 false)).when(examRepository).findById(anyInt());
-        doReturn(healthcareInstitution).when(healthcareInstitutionService).findByCNPJ(any());
+        doReturn(institution).when(institutionService).findByCNPJ(any());
         assertNotNull(examService.retrieveExam(10));
         verify(examRepository, times(1)).findById(anyInt());
     }
@@ -139,7 +127,7 @@ public class ExamServiceTest extends BaseTest {
 
     @Test
     public void shouldDeleteExamWithSuccess() {
-        doReturn(new Exam(null, null, null, healthcareInstitution,
+        doReturn(new Exam(null, null, null, institution,
                 false)).when(examRepository).findById(anyInt());
         examService.deleteExam(88);
         verify(examRepository, times(1)).delete(any(Exam.class));
@@ -147,7 +135,7 @@ public class ExamServiceTest extends BaseTest {
 
     @Test
     public void shouldUpdateExamWithSuccess() {
-        doReturn(new Exam(null, null, null, healthcareInstitution,
+        doReturn(new Exam(null, null, null, institution,
                 false)).when(examRepository).findById(anyInt());
         doReturn(new Procedure(PROCEDURE_NAME)).when(procedureService).initializeProcedure(Mockito.any(ExamDto.class));
         doReturn(new Physician(PHYSICIAN_CRM, PHYSICIAN_NAME)).when(physicianService).initializePhysician(Mockito.any(ExamDto.class));
@@ -156,19 +144,6 @@ public class ExamServiceTest extends BaseTest {
 
         examService.updateExam(66, createExamDto());
         verify(examRepository, times(1)).save(any(Exam.class));
-    }
-
-    @Test(expected = UpdateExamException.class)
-    public void shouldThrowUpdateExamExceptionWhenTryUpdateExamAndSomeUnknowErrorHappens() {
-        doReturn(new Exam(null, null, null, healthcareInstitution,
-                false)).when(examRepository).findById(anyInt());
-        doReturn(new Procedure(PROCEDURE_NAME)).when(procedureService).initializeProcedure(Mockito.any(ExamDto.class));
-        doReturn(new Physician(PHYSICIAN_CRM, PHYSICIAN_NAME)).when(physicianService).initializePhysician(Mockito.any(ExamDto.class));
-        doReturn(new Patient(PATIENT_CPF, PATIENT_NAME, PATIENT_AGE, PATIENT_GENDER)).when(patientService)
-                .initializePatient(Mockito.any(ExamDto.class));
-        doThrow(NullPointerException.class).when(examRepository).save(any(Exam.class));
-
-        examService.updateExam(66, createExamDto());
     }
 
     @Test(expected = ExamNotFoundException.class)
@@ -183,7 +158,7 @@ public class ExamServiceTest extends BaseTest {
 
     @Test
     public void shouldFindExamByIdWithSuccess() {
-        doReturn(new Exam(null, null, null, healthcareInstitution,
+        doReturn(new Exam(null, null, null, institution,
                 false)).when(examRepository).findById(anyInt());
         inputArray = new Object[]{55};
         assertNotNull(ReflectionTestUtils.invokeMethod(examService, "findExamById", inputArray));
@@ -197,18 +172,18 @@ public class ExamServiceTest extends BaseTest {
 
     @Test
     public void shouldUpdateExamRetrievedProcessWhenExamWasRetrieved() {
-        inputArray = new Object[]{new Exam(null, null, null, healthcareInstitution,
+        inputArray = new Object[]{new Exam(null, null, null, institution,
                 true)};
         ReflectionTestUtils.invokeMethod(examService, "updateExamRetrievedProcess", inputArray);
         verifyZeroInteractions(examRepository);
-        verifyZeroInteractions(healthcareInstitutionService);
+        verifyZeroInteractions(institutionService);
     }
 
     @Test
     public void shouldUpdateExamRetrievedProcessWhenExamWasNotRetrieved() {
-        doReturn(new Exam(null, null, null, healthcareInstitution,
+        doReturn(new Exam(null, null, null, institution,
                 false)).when(examRepository).findById(anyInt());
-        inputArray = new Object[]{new Exam(null, null, null, healthcareInstitution,
+        inputArray = new Object[]{new Exam(null, null, null, institution,
                 false)};
         ReflectionTestUtils.invokeMethod(examService, "updateExamRetrievedProcess", inputArray);
         verify(examRepository, times(1)).save(any(Exam.class));

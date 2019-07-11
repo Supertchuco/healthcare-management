@@ -24,6 +24,9 @@ import javax.validation.Valid;
 @Controller
 public class ExamController {
 
+    private static final String BAD_REQUEST = "Bad Request";
+    private static final String INTERNAL_SERVER_ERROR = "Internal Server ErrorMessage";
+
     @Autowired
     private ExamService examService;
 
@@ -38,8 +41,8 @@ public class ExamController {
     @ApiOperation(value = "Create new exam on database.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK", response = Exam.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = String.class),
-            @ApiResponse(code = 500, message = "Internal Server ErrorMessage", response = String.class)
+            @ApiResponse(code = 400, message = BAD_REQUEST, response = String.class),
+            @ApiResponse(code = 500, message = INTERNAL_SERVER_ERROR, response = String.class)
     })
     public Exam createExam(@Valid @RequestBody ExamDto examDto) {
         log.info("Create new exam on database with patient CPF:{} and patient name:{}", examDto.getPatientCPF(),
@@ -59,8 +62,8 @@ public class ExamController {
     @ApiOperation(value = "Update exam on database.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK", response = Exam.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = String.class),
-            @ApiResponse(code = 500, message = "Internal Server ErrorMessage", response = String.class)
+            @ApiResponse(code = 400, message = BAD_REQUEST, response = String.class),
+            @ApiResponse(code = 500, message = INTERNAL_SERVER_ERROR, response = String.class)
     })
     public Exam updateExam(@PathVariable int examId, @Valid @RequestBody ExamDto examDto) {
         log.info("Update exam on database with exam id:{}", examId);
@@ -78,8 +81,8 @@ public class ExamController {
     @ApiOperation(value = "Delete exam on database.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request", response = String.class),
-            @ApiResponse(code = 500, message = "Internal Server ErrorMessage", response = String.class)
+            @ApiResponse(code = 400, message = BAD_REQUEST, response = String.class),
+            @ApiResponse(code = 500, message = INTERNAL_SERVER_ERROR, response = String.class)
     })
     public ResponseEntity deleteExam(@PathVariable int examId) {
         log.info("Delete exam on database with exam id:{}", examId);
@@ -98,8 +101,8 @@ public class ExamController {
     @ApiOperation(value = "Retrieve exam on database.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK", response = Exam.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = String.class),
-            @ApiResponse(code = 500, message = "Internal Server ErrorMessage", response = String.class)
+            @ApiResponse(code = 400, message = BAD_REQUEST, response = String.class),
+            @ApiResponse(code = 500, message = INTERNAL_SERVER_ERROR, response = String.class)
     })
     public Exam retrieveExam(@PathVariable int examId) {
         log.info("Retrieve exam on database with exam id:{}", examId);

@@ -23,6 +23,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Service
 @Slf4j
+@SuppressWarnings("PMD.CommentDefaultAccessModifier")
 public class UserService {
 
     @Autowired
@@ -74,7 +75,7 @@ public class UserService {
         final User user = getUserInAuthenticationContext();
         if (!StringUtils.equals(user.getRole(), accessRole)) {
             log.error("User does not have necessary role for this operation, current role: {} and role necessary for this"
-                + "operation: {}", user.getRole(), accessRole);
+                    + "operation: {}", user.getRole(), accessRole);
             throw new AccessDeniedException();
         }
     }

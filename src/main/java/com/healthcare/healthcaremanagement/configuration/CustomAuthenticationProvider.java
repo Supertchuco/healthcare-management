@@ -26,10 +26,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        String email = authentication.getName();
-        String password = authentication.getCredentials().toString();
+        final String email = authentication.getName();
+        final String password = authentication.getCredentials().toString();
 
-        User user = userService.findUserByEmailAndPassword(email, password);
+        final User user = userService.findUserByEmailAndPassword(email, password);
 
         if (Objects.isNull(user)) {
             log.error("Access not allowed for user with email: {}", email);
@@ -37,7 +37,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             };
         }
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
+        final List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getEmail()));
 
         return new UsernamePasswordAuthenticationToken(email, password, authorities);

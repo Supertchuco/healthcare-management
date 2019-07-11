@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -22,10 +23,10 @@ import static org.mockito.Mockito.*;
 /**
  * Health Care Institution service unit tests.
  */
-@SuppressWarnings({"PMD.TooManyMethods", "checkstyle:AbbreviationAsWordInName"})
+@SuppressWarnings({"PMD.TooManyMethods", "checkstyle:AbbreviationAsWordInName", "PMD.ImmutableField"})
 public class InstitutionServiceTest {
 
-    private static final String VALIDATE_CNPJ_INSTITUTION_METHOD = "validateCNPJInstitution";
+    private static final String FORMAT_CNPJ_INSTITUTION_METHOD = "formatCNPJInstitution";
     private static final String INSTITUTION_NAME = "institutionTest";
     private static final String VALID_CNPJ_1 = "12345678910112";
     private static final String VALID_CNPJ_2 = "22.111.111/9999-00";
@@ -95,31 +96,31 @@ public class InstitutionServiceTest {
     @Test
     public void shouldValidateCNPJWithSuccessWithOnlyNumbersInStringInput() {
         inputArray = new Object[]{VALID_CNPJ_1};
-        ReflectionTestUtils.invokeMethod(institutionService, VALIDATE_CNPJ_INSTITUTION_METHOD, inputArray);
+        assertEquals(VALID_CNPJ_1, ReflectionTestUtils.invokeMethod(institutionService, FORMAT_CNPJ_INSTITUTION_METHOD, inputArray));
     }
 
     @Test
     public void shouldValidateCNPJWithSuccessWithOnlyNumbersAndDotAndSliceInStringInput() {
         inputArray = new Object[]{VALID_CNPJ_2};
-        ReflectionTestUtils.invokeMethod(institutionService, VALIDATE_CNPJ_INSTITUTION_METHOD, inputArray);
+        assertEquals("22111111999900", ReflectionTestUtils.invokeMethod(institutionService, FORMAT_CNPJ_INSTITUTION_METHOD, inputArray));
     }
 
     @Test(expected = InvalidCNPJException.class)
     public void shouldThrowInvalidCNPJExceptionWhenCNPJIsShort() {
         inputArray = new Object[]{INVALID_CNPJ_1};
-        ReflectionTestUtils.invokeMethod(institutionService, VALIDATE_CNPJ_INSTITUTION_METHOD, inputArray);
+        ReflectionTestUtils.invokeMethod(institutionService, FORMAT_CNPJ_INSTITUTION_METHOD, inputArray);
     }
 
     @Test(expected = InvalidCNPJException.class)
     public void shouldThrowInvalidCNPJExceptionWhenCNPJIsShortWithDotAndSlice() {
         inputArray = new Object[]{INVALID_CNPJ_3};
-        ReflectionTestUtils.invokeMethod(institutionService, VALIDATE_CNPJ_INSTITUTION_METHOD, inputArray);
+        ReflectionTestUtils.invokeMethod(institutionService, FORMAT_CNPJ_INSTITUTION_METHOD, inputArray);
     }
 
     @Test(expected = InvalidCNPJException.class)
     public void shouldThrowInvalidCNPJExceptionWhenCNPJHaveLetter() {
         inputArray = new Object[]{INVALID_CNPJ_2};
-        ReflectionTestUtils.invokeMethod(institutionService, VALIDATE_CNPJ_INSTITUTION_METHOD, inputArray);
+        ReflectionTestUtils.invokeMethod(institutionService, FORMAT_CNPJ_INSTITUTION_METHOD, inputArray);
     }
 
     private InstitutionDto createHealthCareInstitutionDto(final String cnpj) {

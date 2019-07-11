@@ -2,11 +2,7 @@ package com.healthcare.healthcaremanagement.service;
 
 import com.healthcare.healthcaremanagement.dto.InstitutionDto;
 import com.healthcare.healthcaremanagement.entity.Institution;
-import com.healthcare.healthcaremanagement.exception.CNPJAlreadyExistOnDatabaseException;
-import com.healthcare.healthcaremanagement.exception.CreateHealthCareInstitutionException;
-import com.healthcare.healthcaremanagement.exception.InstitutionInsufficientPixeonBalanceException;
-import com.healthcare.healthcaremanagement.exception.InstitutionNotFoundException;
-import com.healthcare.healthcaremanagement.exception.InvalidCNPJException;
+import com.healthcare.healthcaremanagement.exception.*;
 import com.healthcare.healthcaremanagement.repository.InstitutionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +15,7 @@ import static org.apache.commons.lang3.StringUtils.length;
 
 @Service
 @Slf4j
-@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
+@SuppressWarnings({"checkstyle:AbbreviationAsWordInName", "PMD.PreserveStackTrace"})
 public class InstitutionService {
 
     @Autowired
@@ -50,7 +46,7 @@ public class InstitutionService {
     }
 
     public Institution findByCNPJ(final String cnpj) {
-        Institution institution = institutionRepository.findByCnpj(cnpj);
+        final Institution institution = institutionRepository.findByCnpj(cnpj);
         if (isNull(institution)) {
             log.error("Institution with CNPJ {} not found", cnpj);
             throw new InstitutionNotFoundException();
@@ -60,7 +56,7 @@ public class InstitutionService {
 
     private String formatCNPJInstitution(final String cnpj) {
         final String cnpjFormatted = cnpj.replaceAll("[./-]", "");
-        if (length(cnpj) != 14 || !isNumeric(cnpj)) {
+        if (length(cnpjFormatted) != 14 || !isNumeric(cnpjFormatted)) {
             log.error("Invalid CNPJ {}", cnpj);
             throw new InvalidCNPJException();
         }

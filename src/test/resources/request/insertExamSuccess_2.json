@@ -1,0 +1,10 @@
+{
+  "institutionCNPJ": "99111000999900",
+  "patientAge": 66,
+  "patientCPF": "00000055599",
+  "patientGender": "male",
+  "patientName": "Balada",
+  "physicianCrm": "889",
+  "physicianName": "Doctor Tuco",
+  "procedure": "brain cirurgy "
+}

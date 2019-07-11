@@ -25,10 +25,10 @@ public class DatabaseLoader implements CommandLineRunner {
     @Override
     public void run(String... strings) {
 
-        Institution institution = new Institution("25690845632", "Balada Institution");
+        final Institution institution = new Institution("25690845632", "Balada Institution");
         institutionRepository.save(institution);
 
-        User user = new User("test", "test", UserRole.ADMIN.getRole());
+        final User user = new User("test", "test", UserRole.ADMIN.getRole());
         institution.setUsers(Arrays.asList(user));
         user.setInstitution(institution);
 

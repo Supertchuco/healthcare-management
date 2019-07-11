@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ExamRepository extends CrudRepository<Exam, Integer> {
 
-    Exam findById(int id);
+    Exam findById(int examId);
 }
